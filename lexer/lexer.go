@@ -18,6 +18,13 @@ func (lex *Lexer) NextToken() token.Token {
 	ch := lex.nextChar()
 
 	switch ch {
+	case '!':
+		if lex.peekChar() == '=' {
+			lex.nextChar()
+			return token.Token{token.NOT_EQ, "!="}
+		}
+		return token.Token{token.BANG, string(ch)}
+
 	case '=':
 		if lex.peekChar() == '=' {
 			lex.nextChar()
@@ -32,12 +39,6 @@ func (lex *Lexer) NextToken() token.Token {
 		return token.Token{token.ASTERISK, string(ch)}
 	case '/':
 		return token.Token{token.SLASH, string(ch)}
-	case '!':
-		if lex.peekChar() == '=' {
-			lex.nextChar()
-			return token.Token{token.NOT_EQ, "!="}
-		}
-		return token.Token{token.BANG, string(ch)}
 	case '<':
 		return token.Token{token.LT, string(ch)}
 	case '>':
